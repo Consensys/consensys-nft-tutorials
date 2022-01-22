@@ -1,27 +1,22 @@
-import {
-	Card,
-	CardContent,
-	CardMedia,
-	Grid,
-	List,
-	ListItem,
-	Typography,
-	Box,
-} from "@mui/material";
+import { Card, CardContent, Grid, Typography, Box } from "@mui/material";
 import { Item } from "../utils/types";
-import placeholderImg from "../img/placeholderImg.png";
 import isNil from "lodash/isNil";
 import pickBy from "lodash/pickBy";
+import { getDisplayPrice } from "../utils/market";
+import EthAddress from "./EthAddress";
+import { isEqual } from "lodash";
+import ItemPreview from "./ItemPreview";
 
 interface ItemDetailsProps {
 	item: Item;
 }
 
-const EXCLUDED_ATTRIBUTES = [
+const EXCLUDED_KEYS = [
 	"title",
 	"description",
 	"image_url",
 	"is_digital_twin",
+	"tx_hash",
 ];
 
 const ItemDetails = ({ item }: ItemDetailsProps) => {
@@ -29,34 +24,24 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 
 	console.log(attributes, token_contract, listing);
 
+	const price = getDisplayPrice(listing.data.order);
+
 	const customAttributes = pickBy(
 		attributes,
-		(val, key) =>
-			!EXCLUDED_ATTRIBUTES.includes(key) && !isNil(val) && val !== ""
+		(val, key) => !EXCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
 	);
+
+	const customTokenInfo: any = pickBy(
+		token_contract,
+		(val, key) => !EXCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
+	);
+
+	console.log(customTokenInfo);
 
 	return (
 		<Grid container spacing={4} justifyContent="space-between">
 			<Grid key="image" item sm={4} xs={12}>
-				<Card sx={{ my: 8, height: 600 }}>
-					<CardContent sx={{ p: 8 }}>
-						<Typography
-							gutterBottom
-							variant="subtitle1"
-							component="div"
-							align="center"
-							sx={{ fontWeight: "light" }}
-						>
-							{attributes.title}
-						</Typography>
-					</CardContent>
-					<CardMedia
-						component="img"
-						image={attributes.image_url || placeholderImg}
-						alt={attributes.title}
-						sx={{ height: 300 }}
-					/>
-				</Card>
+				<ItemPreview item={item} />
 			</Grid>
 			<Grid key="attributes" item sm={4} xs={12}>
 				<Card sx={{ my: 8, height: 600 }}>
@@ -77,12 +62,23 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 			<Grid key="token-information" item sm={4} xs={12}>
 				<Card sx={{ my: 8, height: 600 }}>
 					<CardContent sx={{ p: 4, height: 1 }}>
-						<Typography
-							gutterBottom
-							variant="caption"
-							component="div"
-							align="center"
-						></Typography>
+						{Object.keys(customTokenInfo).map((k) => (
+							<Box>
+								<Box sx={{ width: 1 }}>
+									<Typography variant="overline">{k}</Typography>
+								</Box>
+								<Box sx={{ width: 1 }}>
+									{isEqual(k, "address") ? (
+										<EthAddress
+											address={customTokenInfo.address}
+											networkId={token_contract.network_id}
+										/>
+									) : (
+										<Typography variant="h4">{customTokenInfo[k]}</Typography>
+									)}
+								</Box>
+							</Box>
+						))}
 					</CardContent>
 				</Card>
 			</Grid>
