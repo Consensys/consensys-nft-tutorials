@@ -10,6 +10,7 @@
     "@types/react-dom": "latest",
     "axios": "^0.25.0",
     "ethers": "^5.5.3",
+    "lodash": "^4.17.21",
     "react": "latest",
     "react-dom": "latest",
     "react-query": "^3.34.8",
@@ -34,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.178"
   }
 }

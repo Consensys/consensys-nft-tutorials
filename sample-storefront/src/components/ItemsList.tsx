@@ -1,7 +1,7 @@
-import { Alert, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Alert, Grid, Link } from "@mui/material";
 import { useItems } from "../services/itemsService";
 import { Item } from "../utils/types";
+import ItemPreview from "./ItemPreview";
 
 const ItemsList = () => {
 	const { items, status } = useItems();
@@ -14,7 +14,7 @@ const ItemsList = () => {
 			{status === "success" && (
 				<Grid
 					container
-					spacing={12}
+					spacing={8}
 					justifyContent="space-between"
 					alignItems="center"
 				>
@@ -23,7 +23,9 @@ const ItemsList = () => {
 					)}
 					{(items || []).map((item: Item) => (
 						<Grid key={item.id} item sm={4} xs={12}>
-							Item
+							<Link href={`/items/${item.id}`} underline="none">
+								<ItemPreview item={item} />
+							</Link>
 						</Grid>
 					))}
 				</Grid>
