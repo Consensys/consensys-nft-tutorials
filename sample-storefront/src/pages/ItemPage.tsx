@@ -1,6 +1,7 @@
-import { Container, Typography, Box, Alert } from "@mui/material";
+import { Typography, Box, Alert } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ItemDetails from "../components/ItemDetails";
+import Page from "../components/Page";
 import { useItem } from "../services/itemsService";
 
 const ItemPage = () => {
@@ -13,13 +14,13 @@ const ItemPage = () => {
 				<Alert severity="error">Error loading items.</Alert>
 			)}
 			{status === "success" && (
-				<Container sx={{ py: 24 }}>
+				<Page>
 					<Box sx={{ my: 4 }}>
 						<Typography variant="h2" align="center" gutterBottom>
 							<ItemDetails item={item} />
 						</Typography>
 					</Box>
-				</Container>
+				</Page>
 			)}
 		</>
 	);

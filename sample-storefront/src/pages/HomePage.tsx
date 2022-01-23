@@ -1,15 +1,16 @@
 import ItemsList from "../components/ItemsList";
-import { Container, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import Page from "../components/Page";
 
 const HomePage = () => (
-	<Container sx={{ py: 24 }}>
+	<Page>
 		<Box sx={{ my: 4 }}>
 			<Typography variant="h2" align="center" gutterBottom>
 				THE EGG drop
 			</Typography>
 			<ItemsList />
 		</Box>
-	</Container>
+	</Page>
 );
 
 export default HomePage;

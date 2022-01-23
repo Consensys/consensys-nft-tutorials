@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.3.0",
     "@mui/material": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
@@ -17,7 +18,7 @@
     "react-dom": "latest",
     "react-query": "^3.34.8",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "latest",
+    "react-scripts": "4.0.3",
     "typescript": "latest"
   },
   "scripts": {
@@ -25,6 +26,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [

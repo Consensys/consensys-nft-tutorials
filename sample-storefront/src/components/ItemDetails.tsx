@@ -2,7 +2,6 @@ import { Card, CardContent, Grid, Typography, Box } from "@mui/material";
 import { Item } from "../utils/types";
 import isNil from "lodash/isNil";
 import pickBy from "lodash/pickBy";
-import { getDisplayPrice } from "../utils/market";
 import EthAddress from "./EthAddress";
 import { isEqual } from "lodash";
 import ItemPreview from "./ItemPreview";
@@ -43,7 +42,7 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 				<Card sx={{ my: 8, height: 600 }}>
 					<CardContent sx={{ p: 4, height: 1 }}>
 						{Object.keys(customAttributes).map((k) => (
-							<Box>
+							<Box key={k}>
 								<Box sx={{ width: 1 }}>
 									<Typography variant="overline">{k}</Typography>
 								</Box>
@@ -59,7 +58,7 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 				<Card sx={{ my: 8, height: 600 }}>
 					<CardContent sx={{ p: 4, height: 1 }}>
 						{Object.keys(customTokenInfo).map((k) => (
-							<Box>
+							<Box key={k}>
 								<Box sx={{ width: 1 }}>
 									<Typography variant="overline">{k}</Typography>
 								</Box>
