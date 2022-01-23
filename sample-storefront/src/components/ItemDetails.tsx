@@ -31,8 +31,6 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 		(val, key) => !EXCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
 	);
 
-	console.log(customTokenInfo);
-
 	return (
 		<Grid container spacing={4} justifyContent="space-between">
 			<Grid key="image" item sm={4} xs={12}>
