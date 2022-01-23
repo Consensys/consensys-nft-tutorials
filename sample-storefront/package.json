@@ -9,6 +9,8 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "axios": "^0.25.0",
+    "bnc-notify": "^1.9.2",
+    "bnc-onboard": "^1.37.1",
     "ethers": "^5.5.3",
     "lodash": "^4.17.21",
     "react": "latest",

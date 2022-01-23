@@ -20,11 +20,7 @@ const EXCLUDED_KEYS = [
 ];
 
 const ItemDetails = ({ item }: ItemDetailsProps) => {
-	const { attributes, token_contract, listing } = item;
-
-	console.log(attributes, token_contract, listing);
-
-	const price = getDisplayPrice(listing.data.order);
+	const { attributes, token_contract } = item;
 
 	const customAttributes = pickBy(
 		attributes,
