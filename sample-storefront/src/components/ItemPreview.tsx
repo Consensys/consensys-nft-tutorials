@@ -8,15 +8,22 @@ import {
 import { Item } from "../utils/types";
 import placeholderImg from "../img/placeholderImg.png";
 import { getDisplayPrice } from "../utils/market";
+import { usePaymentToken } from "../services/tokenService";
 
 interface ItemPreviewProps {
 	item: Item;
 }
 
 const ItemPreview = ({ item }: ItemPreviewProps) => {
-	const { attributes, listing } = item;
+	const { attributes, token_contract, listing } = item;
 
 	const price = getDisplayPrice(listing.data.order);
+
+	const { tokens: paymentTokens } = usePaymentToken(token_contract.network_id);
+
+	const paymentToken = paymentTokens.find(
+		(t) => t.address === token_contract.address
+	);
 
 	return (
 		<Card sx={{ my: 8, height: 600 }}>
@@ -43,7 +50,7 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 						component="div"
 						align="center"
 					>
-						{price} WETH
+						{price} {paymentToken}
 					</Typography>
 				</CardContent>
 			</CardActionArea>

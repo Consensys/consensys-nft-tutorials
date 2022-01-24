@@ -17,7 +17,7 @@ const Page = ({ title, children }: PageProps) => {
 			<Box display="flex" sx={{ p: 10, justifyContent: "flex-end" }}>
 				<Wallet />
 			</Box>
-			<Container sx={{ py: 12 }}>{children}</Container>
+			<Container sx={{ py: 8 }}>{children}</Container>
 		</>
 	);
 };
