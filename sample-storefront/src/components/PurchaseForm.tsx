@@ -5,9 +5,11 @@ import useExchangeContract from "../hooks/useExchangeContract";
 import { useCurrency } from "../hooks/useCurrency";
 import { useTokenBalance } from "../hooks/useTokenBalance";
 import { useCallback, useState } from "react";
-import { ethers } from "ethers";
+import { BigNumber, BigNumberish, ethers } from "ethers";
 import { TRANSACTION_SUCCESS } from "../utils/constants";
-import { Alert } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
+import { Field, Formik } from "formik";
+import { formatPrice } from "../utils/market";
 
 export interface PurchaseFormProps {
 	onDone?: any;
@@ -17,6 +19,17 @@ export interface PurchaseFormProps {
 const validationSchema = yup.object().shape({
 	quantity: yup.number().required(`Please enter the quantity to purchase`),
 });
+
+export function isBalanceEnough(
+	balance?: BigNumberish,
+	requiredAmount?: BigNumberish
+) {
+	if (!balance || !requiredAmount) {
+		return false;
+	} else {
+		return BigNumber.from(balance).gte(requiredAmount);
+	}
+}
 
 const PurchaseForm: React.FC<PurchaseFormProps> = ({
 	onDone,
@@ -71,12 +84,9 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 		>
 			{({ values, errors, isSubmitting }) => {
 				return (
-					<StyledForm>
+					<Box>
 						<Box width="100%">
-							Unit Price:{" "}
-							{currency
-								? formatCryptoCurrency(order.takerToken.amount, currency)
-								: ""}
+							Unit Price: {currency ? formatPrice(order, currency) : ""}
 						</Box>
 						<Box width="100%" mt={2}>
 							Select quantity (max {listing.data.quantity_remaining})
@@ -85,7 +95,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 							type="number"
 							name="quantity"
 							placeholder="Quantity"
-							component={InputField}
+							component={TextField}
 							disabled={isSubmitting}
 							validate={(quantity: number) => {
 								if (!quantity) {
@@ -121,26 +131,21 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 						<Box width="100%" mt={2}>
 							Total Price:{" "}
 							{currency && values.quantity
-								? formatCryptoCurrency(
-										BigNumber.from(order.takerToken.amount).mul(
-											values.quantity
-										),
-										currency
-								  )
+								? formatPrice(order, currency, values.quantity)
 								: ""}
 						</Box>
-						<Flex alignCenter mt={2}>
-							{purchased && <BuyButton disabled={true}>Sold</BuyButton>}
+						<Box>
+							{purchased && <Button disabled={true}>Sold</Button>}
 							{!purchased && (
-								<BuyButton
-									disabled={isSubmitting || errors.quantity}
+								<Button
+									disabled={isSubmitting || !!errors.quantity}
 									type="submit"
 								>
 									Buy now
-								</BuyButton>
+								</Button>
 							)}
-						</Flex>
-					</StyledForm>
+						</Box>
+					</Box>
 				);
 			}}
 		</Formik>

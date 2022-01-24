@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import { Item } from "../utils/types";
 import placeholderImg from "../img/placeholderImg.png";
-import { getDisplayPrice } from "../utils/market";
 import { usePaymentToken } from "../services/tokenService";
+import { formatPrice } from "../utils/market";
 
 interface ItemPreviewProps {
 	item: Item;
@@ -17,13 +17,13 @@ interface ItemPreviewProps {
 const ItemPreview = ({ item }: ItemPreviewProps) => {
 	const { attributes, token_contract, listing } = item;
 
-	const price = getDisplayPrice(listing.data.order);
-
 	const { tokens: paymentTokens } = usePaymentToken(token_contract.network_id);
 
 	const paymentToken = paymentTokens.find(
 		(t) => t.address === listing.data.order.takerToken.token
 	);
+
+	const price = formatPrice(listing.data.order, paymentToken!);
 
 	return (
 		<Card sx={{ my: 8, height: 600 }}>
@@ -50,7 +50,7 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 						component="div"
 						align="center"
 					>
-						{price} {paymentToken?.symbol}
+						{price}
 					</Typography>
 				</CardContent>
 			</CardActionArea>

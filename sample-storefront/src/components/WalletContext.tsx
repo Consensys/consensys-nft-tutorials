@@ -4,7 +4,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import Onboard from "bnc-onboard";
 import { API } from "bnc-onboard/dist/src/interfaces";
 import Notify from "bnc-notify";
-import { bncDappId, infuraKey } from "../config";
+import { bncDappId, infuraKey, networkId } from "../config";
 import { getItem, removeItem, setItem } from "../utils/localStorage";
 
 interface WalletContextValue {
@@ -21,7 +21,7 @@ interface WalletContextValue {
 
 const ALLOWED_CHAIN_IDS = [1, 4, 147];
 
-const chainId = 4;
+const chainId = networkId ? parseInt(networkId) : 4;
 
 const wallets: any[] = [];
 

@@ -1,9 +1,10 @@
-import { Box, Button, Modal } from "@mui/material";
+import { Alert, Box, Button, Modal } from "@mui/material";
 import { useState } from "react";
 import { useWallet } from "./WalletContext";
 import PurchaseWizard from "./PurchaseWizard";
 import { Item } from "../utils/types";
 import { usePaymentToken } from "../services/tokenService";
+import { networkName } from "../config";
 
 export interface PurchaseActionsProps {
 	item: Item;
@@ -33,10 +34,14 @@ const PurchaseAction: React.FC<PurchaseActionsProps> = ({ item }) => {
 						</Button>
 
 						{!isRightNetwork && token_contract && address && (
-							<WrongNetworkAlert networkId={token_contract.network_id} />
+							<Alert>
+								`Switch your network to ${networkName} to purchase.`
+							</Alert>
 						)}
 
-						{!address && <ConnectWalletAlert />}
+						{!address && (
+							<Alert>You must connect your wallet to purchase.</Alert>
+						)}
 					</>
 				)}
 			</Box>

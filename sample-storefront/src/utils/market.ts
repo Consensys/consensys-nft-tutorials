@@ -1,20 +1,28 @@
 import { BigNumber, BigNumberish, logger } from "ethers";
-import { Order } from "./types";
+import { PaymentToken } from "../services/tokenService";
+import { ERC20Token, Order } from "./types";
 
 let zeros = "0";
 while (zeros.length < 256) {
 	zeros += zeros;
 }
 
-export const getDisplayPrice = (order: Order) => {
+export const formatPrice = (
+	order: Order,
+	token: PaymentToken | ERC20Token,
+	quantity: number = 1
+) => {
 	if (order) {
-		return formatUnits(order.takerToken.amount, 18);
+		return `${formatUnits(
+			BigNumber.from(order.takerToken.amount).mul(quantity),
+			token?.decimals
+		)} ${token?.symbol}`;
 	}
 };
 
 export function formatUnits(
 	value: BigNumberish,
-	decimals: BigNumberish
+	decimals: BigNumberish = 18
 ): string {
 	const multiplier = getMultiplier(decimals);
 
