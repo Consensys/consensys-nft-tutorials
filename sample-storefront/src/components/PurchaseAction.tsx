@@ -1,9 +1,8 @@
-import { Alert, Box, Button, Modal } from "@mui/material";
+import { Alert, Box, Button, Modal, Typography } from "@mui/material";
 import { useState } from "react";
 import { useWallet } from "./WalletContext";
 import PurchaseWizard from "./PurchaseWizard";
 import { Item } from "../utils/types";
-import { usePaymentToken } from "../services/tokenService";
 import { networkName } from "../config";
 
 export interface PurchaseActionsProps {
@@ -21,22 +20,24 @@ const PurchaseAction: React.FC<PurchaseActionsProps> = ({ item }) => {
 
 	return (
 		<>
-			<Box>
+			<Box sx={{ px: 14 }}>
 				{order && (
 					<>
+						<Typography variant="h4"></Typography>
 						<Button
 							onClick={() => setCryptoBuyOpen(true)}
-							disabled={!isRightNetwork}
-							color="primary"
+							disabled={!isRightNetwork || !address}
+							color="secondary"
 							variant="outlined"
+							sx={{ borderRadius: 5, px: 5 }}
 						>
-							Buy Now
+							<Typography variant="button" sx={{ fontSize: "1rem" }}>
+								Buy now
+							</Typography>
 						</Button>
 
 						{!isRightNetwork && token_contract && address && (
-							<Alert>
-								`Switch your network to ${networkName} to purchase.`
-							</Alert>
+							<Alert>Switch your network to ${networkName} to purchase.</Alert>
 						)}
 
 						{!address && (
@@ -45,7 +46,11 @@ const PurchaseAction: React.FC<PurchaseActionsProps> = ({ item }) => {
 					</>
 				)}
 			</Box>
-			<Modal open={cryptoBuyOpen} onClose={() => setCryptoBuyOpen(false)}>
+			<Modal
+				open={cryptoBuyOpen}
+				onClose={() => setCryptoBuyOpen(false)}
+				sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+			>
 				<PurchaseWizard
 					onDone={() => setCryptoBuyOpen(false)}
 					tokenContract={token_contract}

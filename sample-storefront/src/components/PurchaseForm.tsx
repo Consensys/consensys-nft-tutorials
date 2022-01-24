@@ -7,8 +7,8 @@ import { useTokenBalance } from "../hooks/useTokenBalance";
 import { useCallback, useState } from "react";
 import { BigNumber, BigNumberish, ethers } from "ethers";
 import { TRANSACTION_SUCCESS } from "../utils/constants";
-import { Alert, Box, Button, TextField } from "@mui/material";
-import { Field, Formik } from "formik";
+import { Alert, Box, Button, Typography } from "@mui/material";
+import { Field, Form, Formik } from "formik";
 import { formatPrice } from "../utils/market";
 
 export interface PurchaseFormProps {
@@ -17,7 +17,10 @@ export interface PurchaseFormProps {
 }
 
 const validationSchema = yup.object().shape({
-	quantity: yup.number().required(`Please enter the quantity to purchase`),
+	quantity: yup
+		.number()
+		.min(1, "Quantity must be larger than 0")
+		.required(`Please enter the quantity to purchase`),
 });
 
 export function isBalanceEnough(
@@ -72,8 +75,6 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 		[order, signature, fillOrder, notify, currency, onDone]
 	);
 
-	console.log("order", order);
-
 	return (
 		<Formik
 			initialValues={{
@@ -81,71 +82,79 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 			}}
 			onSubmit={handleBuy}
 			validationSchema={validationSchema}
+			validateOnChange
+			validateOnBlur
 		>
-			{({ values, errors, isSubmitting }) => {
+			{({ values, errors, touched, isValidating, isSubmitting }) => {
+				console.log("errors", errors);
+				console.log("isvalidating", isValidating);
+				console.log("touched", touched);
+				console.log("currency", currency);
+
 				return (
-					<Box>
-						<Box width="100%">
-							Unit Price: {currency ? formatPrice(order, currency) : ""}
-						</Box>
-						<Box width="100%" mt={2}>
-							Select quantity (max {listing.data.quantity_remaining})
-						</Box>
-						<Field
-							type="number"
-							name="quantity"
-							placeholder="Quantity"
-							component={TextField}
-							disabled={isSubmitting}
-							validate={(quantity: number) => {
-								if (!quantity) {
-									return "Quantity must be higher than 0";
-								}
+					<Form>
+						<Typography variant="body1" align="center">
+							<Box width="100%">
+								Unit Price: {currency ? formatPrice(order, currency) : ""}
+							</Box>
+							<Box width="100%" mt={2}>
+								Select quantity (max {listing.data.quantity_remaining})
+							</Box>
+							<Field
+								type="number"
+								name="quantity"
+								placeholder="1"
+								disabled={isSubmitting}
+								validate={(quantity: number) => {
+									if (quantity < 1) {
+										return "Quantity must be higher than 0";
+									}
 
-								if (!balance) {
-									return "Checking token balance";
-								}
+									if (!balance) {
+										return "Checking token balance";
+									}
 
-								const hasEnough = isBalanceEnough(
-									balance!,
-									BigNumber.from(order.takerToken.amount).mul(quantity)
-								);
+									const hasEnough = isBalanceEnough(
+										balance!,
+										BigNumber.from(order.takerToken.amount).mul(quantity)
+									);
 
-								if (!hasEnough) {
-									return "Not enough funds";
-								}
+									if (!hasEnough) {
+										return `You do not have enough ${currency!.symbol}`;
+									}
 
-								if (quantity > listing.data.quantity_remaining) {
-									return "Quantity is too high";
-								}
-							}}
-							max={listing.data.quantity_remaining}
-							small
-						/>
+									if (quantity > listing.data.quantity_remaining) {
+										return "You can only buy within the max quantity";
+									}
+								}}
+							/>
 
-						{errors.quantity && (
-							<Alert severity="error" elevation={0}>
-								{errors.quantity}
-							</Alert>
-						)}
-						<Box width="100%" mt={2}>
-							Total Price:{" "}
-							{currency && values.quantity
-								? formatPrice(order, currency, values.quantity)
-								: ""}
-						</Box>
-						<Box>
-							{purchased && <Button disabled={true}>Sold</Button>}
-							{!purchased && (
-								<Button
-									disabled={isSubmitting || !!errors.quantity}
-									type="submit"
-								>
-									Buy now
-								</Button>
+							{touched.quantity && errors.quantity && (
+								<Alert severity="error">{errors.quantity}</Alert>
 							)}
-						</Box>
-					</Box>
+							{values.quantity > 0 && (
+								<Box width="100%" mt={2}>
+									Total Price:{" "}
+									{currency && values.quantity
+										? formatPrice(order, currency, values.quantity)
+										: ""}
+								</Box>
+							)}
+							<Box>
+								{purchased && <Button disabled={true}>Sold</Button>}
+								{!purchased && (
+									<Button
+										disabled={isSubmitting || !!errors.quantity}
+										type="submit"
+										sx={{ m: 5, px: 3, borderRadius: 5 }}
+										variant="outlined"
+									>
+										Buy now
+									</Button>
+								)}
+							</Box>
+						</Typography>
+					</Form>
 				);
 			}}
 		</Formik>

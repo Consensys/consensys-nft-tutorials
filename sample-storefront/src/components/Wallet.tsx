@@ -30,10 +30,7 @@ const Wallet: React.FC = () => {
 					variant="outlined"
 					onClick={selectWallet}
 					color="secondary"
-					sx={{
-						cursor: "pointer",
-						borderRadius: 5,
-					}}
+					sx={{ borderRadius: 5 }}
 				>
 					<Typography variant="button" sx={{ fontSize: "1rem" }}>
 						Connect Wallet

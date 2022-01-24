@@ -19,11 +19,15 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 
 	const { tokens: paymentTokens } = usePaymentToken(token_contract.network_id);
 
-	const paymentToken = paymentTokens.find(
-		(t) => t.address === listing.data.order.takerToken.token
-	);
+	let price = "SOLD";
 
-	const price = formatPrice(listing.data.order, paymentToken!);
+	if (listing) {
+		const paymentToken = paymentTokens.find(
+			(t) => t.address === listing.data.order.takerToken.token
+		);
+
+		price = formatPrice(listing.data.order, paymentToken!)!;
+	}
 
 	return (
 		<Card sx={{ my: 8, height: 600 }}>
@@ -44,9 +48,10 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 					>
 						{attributes.title}
 					</Typography>
+
 					<Typography
 						gutterBottom
-						variant="caption"
+						variant="subtitle2"
 						component="div"
 						align="center"
 					>
