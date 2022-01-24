@@ -1,3 +1,14 @@
+import { Listing } from "../utils/types";
+import { useWallet } from "./WalletContext";
+import * as yup from "yup";
+import useExchangeContract from "../hooks/useExchangeContract";
+import { useCurrency } from "../hooks/useCurrency";
+import { useTokenBalance } from "../hooks/useTokenBalance";
+import { useCallback, useState } from "react";
+import { ethers } from "ethers";
+import { TRANSACTION_SUCCESS } from "../utils/constants";
+import { Alert } from "@mui/material";
+
 export interface PurchaseFormProps {
 	onDone?: any;
 	listing: Listing;
@@ -15,7 +26,6 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 	const { fillOrder } = useExchangeContract();
 	const { order, signature } = listing.data;
 
-	// TODO: fix bugs with other networks
 	const currency = useCurrency(network!, order.takerToken.token);
 	const balance = useTokenBalance(currency!, address);
 

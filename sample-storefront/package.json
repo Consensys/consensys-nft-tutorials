@@ -13,13 +13,15 @@
     "bnc-notify": "^1.9.2",
     "bnc-onboard": "^1.37.1",
     "ethers": "^5.5.3",
+    "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "react": "latest",
     "react-dom": "latest",
     "react-query": "^3.34.8",
     "react-router-dom": "^6.2.1",
     "react-scripts": "4.0.3",
-    "typescript": "latest"
+    "typescript": "latest",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

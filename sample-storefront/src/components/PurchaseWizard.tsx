@@ -2,6 +2,7 @@ import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { useState } from "react";
 import { Listing, TokenContract, ERC20Token } from "../utils/types";
 import ApproveToken from "./ApproveToken";
+import PurchaseForm from "./PurchaseForm";
 
 export interface PurchaseWizardProps {
 	listing: Listing;

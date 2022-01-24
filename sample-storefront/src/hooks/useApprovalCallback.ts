@@ -5,6 +5,8 @@ import { useQueryClient } from "react-query";
 import { useWallet } from "../components/WalletContext";
 import { TRANSACTION_SUCCESS } from "../utils/constants";
 import { ERC20Token } from "../utils/types";
+import { useTokenContract } from "./useTokenContract";
+import { useTokenAllowance } from "./useTokenAllowance";
 
 export enum ApprovalState {
 	UNKNOWN = "UNKNOWN",
