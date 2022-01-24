@@ -2,7 +2,8 @@ import { Typography, Box, Alert } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ItemDetails from "../components/ItemDetails";
 import Page from "../components/Page";
-import { useItem } from "../services/itemsService";
+import { useItem } from "../services/itemService";
+import { QUERY_STATUS } from "../utils/constants";
 
 const ItemPage = () => {
 	const { itemId } = useParams();
@@ -10,10 +11,10 @@ const ItemPage = () => {
 
 	return (
 		<>
-			{status === "error" && (
+			{status === QUERY_STATUS.error && (
 				<Alert severity="error">Error loading items.</Alert>
 			)}
-			{status === "success" && (
+			{status === QUERY_STATUS.success && (
 				<Page>
 					<Box sx={{ my: 4 }}>
 						<Typography variant="h2" align="center" gutterBottom>

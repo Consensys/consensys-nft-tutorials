@@ -22,7 +22,7 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 	const { tokens: paymentTokens } = usePaymentToken(token_contract.network_id);
 
 	const paymentToken = paymentTokens.find(
-		(t) => t.address === token_contract.address
+		(t) => t.address === listing.data.order.takerToken.token
 	);
 
 	return (
@@ -50,7 +50,7 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 						component="div"
 						align="center"
 					>
-						{price} {paymentToken}
+						{price} {paymentToken?.symbol}
 					</Typography>
 				</CardContent>
 			</CardActionArea>

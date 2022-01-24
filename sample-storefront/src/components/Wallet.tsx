@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import EthAddress from "./EthAddress";
 import { useWallet } from "./WalletContext";
@@ -26,11 +26,19 @@ const Wallet: React.FC = () => {
 					</Box>
 				</>
 			) : (
-				<Box onClick={selectWallet} sx={{ cursor: "pointer" }}>
-					<Typography variant="overline" sx={{ fontSize: "1rem" }}>
+				<Button
+					variant="outlined"
+					onClick={selectWallet}
+					color="secondary"
+					sx={{
+						cursor: "pointer",
+						borderRadius: 5,
+					}}
+				>
+					<Typography variant="button" sx={{ fontSize: "1rem" }}>
 						Connect Wallet
 					</Typography>
-				</Box>
+				</Button>
 			)}
 		</>
 	);
