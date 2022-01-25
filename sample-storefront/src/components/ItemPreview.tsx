@@ -30,36 +30,38 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 	}
 
 	return (
-		<Card sx={{ my: 8, height: 600 }}>
-			<CardActionArea sx={{ height: 1 }}>
-				<CardMedia
-					component="img"
-					image={attributes.image_url || placeholderImg}
-					alt={attributes.title}
-					sx={{ height: 300 }}
-				/>
+		<>
+			<Card sx={{ my: 8, height: 600 }}>
+				<CardActionArea sx={{ height: 1, alignItems: "center" }}>
+					<CardMedia
+						component="img"
+						image={attributes.image_url || placeholderImg}
+						alt={attributes.title}
+						sx={{ height: 300 }}
+					/>
 
-				<CardContent>
-					<Typography
-						gutterBottom
-						variant="caption"
-						component="div"
-						align="center"
-					>
-						{attributes.title}
-					</Typography>
+					<CardContent>
+						<Typography
+							gutterBottom
+							variant="caption"
+							component="div"
+							align="center"
+						>
+							{attributes.title}
+						</Typography>
 
-					<Typography
-						gutterBottom
-						variant="subtitle2"
-						component="div"
-						align="center"
-					>
-						{price}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-		</Card>
+						<Typography
+							gutterBottom
+							variant="subtitle2"
+							component="div"
+							align="center"
+						>
+							{price}
+						</Typography>
+					</CardContent>
+				</CardActionArea>
+			</Card>
+		</>
 	);
 };
 

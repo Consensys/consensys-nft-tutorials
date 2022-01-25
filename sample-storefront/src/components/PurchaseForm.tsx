@@ -146,7 +146,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 									<Button
 										disabled={isSubmitting || !!errors.quantity}
 										type="submit"
-										sx={{ m: 5, px: 3, borderRadius: 5 }}
+										sx={{ px: 3, borderRadius: 5 }}
 										variant="outlined"
 									>
 										Buy now

@@ -26,9 +26,8 @@ const PurchaseWizard = React.forwardRef(
 				ref={ref}
 				sx={{
 					p: 5,
-					backgroundColor: "white",
+					backgroundColor: "#ffffff",
 					borderRadius: 5,
-
 					margin: "auto",
 				}}
 			>
@@ -49,7 +48,7 @@ const PurchaseWizard = React.forwardRef(
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",
-						p: 4,
+						pt: 4,
 					}}
 				>
 					{activeStep === 0 && (

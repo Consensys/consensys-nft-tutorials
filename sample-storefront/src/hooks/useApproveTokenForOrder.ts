@@ -1,5 +1,5 @@
 import { Order } from "../utils/types";
-import { useApproveCallback } from "./useApprovalCallback";
+import { useApproveCallback } from "./useApproveCallback";
 import { useCurrencyForOrder } from "./useCurrency";
 import useExchangeContract from "./useExchangeContract";
 

@@ -52,7 +52,7 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 					</CardContent>
 				</Card>
 			</Grid>
-			<Grid key="token-information" item sm={4} xs={12}>
+			<Grid key="contract-information" item sm={4} xs={12}>
 				<Card sx={{ my: 8, height: 600 }}>
 					<CardContent sx={{ p: 4, height: 1 }}>
 						{Object.keys(customTokenInfo).map((k) => (

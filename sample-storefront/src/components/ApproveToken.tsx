@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useEffect } from "react";
-import { ApprovalState } from "../hooks/useApprovalCallback";
+import { ApprovalState } from "../hooks/useApproveCallback";
 import { useApproveTokenForOrder } from "../hooks/useApproveTokenForOrder";
 import { Order, TokenContract } from "../utils/types";
 
