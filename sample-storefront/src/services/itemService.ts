@@ -10,15 +10,10 @@ const fetchItem = async (itemId: string) => {
 export const useItem = (itemId: string) => {
 	const { status, data } = useQuery(["item", itemId], () => fetchItem(itemId));
 
-	return Boolean(data)
-		? {
-				item: data,
-				status,
-		  }
-		: {
-				item: null,
-				status,
-		  };
+	return {
+		item: Boolean(data) ? data : null,
+		status,
+	};
 };
 
 const fetchItems = async (organizationId: string, collectionId: string) => {
@@ -45,13 +40,8 @@ export const useItems = () => {
 		}
 	);
 
-	return Boolean(data)
-		? {
-				items: data.items,
-				status,
-		  }
-		: {
-				items: [],
-				status,
-		  };
+	return {
+		items: Boolean(data) ? data.items : [],
+		status,
+	};
 };

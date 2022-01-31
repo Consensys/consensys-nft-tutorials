@@ -9,7 +9,7 @@ while (zeros.length < 256) {
 
 export const formatPrice = (
 	order: Order,
-	token: PaymentToken | ERC20Token,
+	token?: PaymentToken | ERC20Token,
 	quantity: number = 1
 ) => {
 	if (order) {

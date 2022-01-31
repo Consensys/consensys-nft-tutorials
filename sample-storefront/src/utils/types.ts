@@ -25,7 +25,7 @@ export interface TokenContract {
 
 export interface Listing {
 	data: SetPriceListingData;
-	type: "SET_PRICE" | "FIAT_SET_PRICE" | "AUCTION";
+	type: "SET_PRICE";
 }
 
 export interface SetPriceListingData {

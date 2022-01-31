@@ -10,12 +10,15 @@ interface ItemDetailsProps {
 	item: Item;
 }
 
-const EXCLUDED_KEYS = [
-	"title",
-	"description",
-	"image_url",
-	"is_digital_twin",
-	"tx_hash",
+const INCLUDED_KEYS = [
+	"Color",
+	"Pattern",
+	"Rarity",
+	"Transparency",
+	"address",
+	"network_id",
+	"symbol",
+	"token_type",
 ];
 
 const ItemDetails = ({ item }: ItemDetailsProps) => {
@@ -23,12 +26,12 @@ const ItemDetails = ({ item }: ItemDetailsProps) => {
 
 	const customAttributes = pickBy(
 		attributes,
-		(val, key) => !EXCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
+		(val, key) => INCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
 	);
 
 	const customTokenInfo: any = pickBy(
 		token_contract,
-		(val, key) => !EXCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
+		(val, key) => INCLUDED_KEYS.includes(key) && !isNil(val) && val !== ""
 	);
 
 	return (

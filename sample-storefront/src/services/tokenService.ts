@@ -16,15 +16,9 @@ export const getPaymentTokenForNetwork = async (
 };
 
 export const usePaymentToken = (networkId: number) => {
-	const { status, data } = useQuery(
-		["payment-tokens", networkId],
-		() => {
-			return getPaymentTokenForNetwork(networkId);
-		},
-		{
-			enabled: Boolean(networkId),
-		}
-	);
+	const { status, data } = useQuery(["payment-tokens", networkId], () => {
+		return getPaymentTokenForNetwork(networkId);
+	});
 
 	return {
 		tokens: data || [],

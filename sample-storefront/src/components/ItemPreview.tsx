@@ -26,7 +26,7 @@ const ItemPreview = ({ item }: ItemPreviewProps) => {
 			(t) => t.address === listing.data.order.takerToken.token
 		);
 
-		price = formatPrice(listing.data.order, paymentToken!)!;
+		price = formatPrice(listing.data.order, paymentToken)!;
 	}
 
 	return (

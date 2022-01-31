@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import { useMemo } from "react";
 import theme from "../theme";
 
@@ -7,18 +7,6 @@ interface EthAddressProps {
 	networkId: number;
 	full?: boolean;
 }
-
-const AddressDisplay = styled(Box)`
-	cursor: pointer;
-	font-size: 2rem;
-	font-weight: 400;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	&:hover {
-		color: ${theme.palette.secondary.main};
-	}
-`;
 
 const EthAddress = ({
 	address = "",
@@ -49,7 +37,20 @@ const EthAddress = ({
 	};
 
 	return (
-		<AddressDisplay onClick={openExplorer}>{displayedAddress}</AddressDisplay>
+		<Box
+			sx={{
+				fontSize: "2rem",
+				fontWeight: "400",
+				overflow: "hidden",
+				cursor: "pointer",
+				"&:hover": {
+					color: theme.palette.secondary.main,
+				},
+			}}
+			onClick={openExplorer}
+		>
+			{displayedAddress}
+		</Box>
 	);
 };
 
