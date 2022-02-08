@@ -8,11 +8,14 @@ const fetchItem = async (itemId: string) => {
 };
 
 export const useItem = (itemId: string) => {
-	const { status, data } = useQuery(["item", itemId], () => fetchItem(itemId));
+	const { isError, isSuccess, data } = useQuery(["item", itemId], () =>
+		fetchItem(itemId)
+	);
 
 	return {
 		item: Boolean(data) ? data : null,
-		status,
+		isError,
+		isSuccess,
 	};
 };
 
@@ -27,7 +30,7 @@ const fetchItems = async (organizationId: string, collectionId: string) => {
 };
 
 export const useItems = () => {
-	const { status, data } = useQuery(
+	const { isError, isSuccess, data } = useQuery(
 		["items", organizationId, collectionId],
 		() => {
 			if (!organizationId || !collectionId) {
@@ -42,6 +45,7 @@ export const useItems = () => {
 
 	return {
 		items: Boolean(data) ? data.items : [],
-		status,
+		isError,
+		isSuccess,
 	};
 };

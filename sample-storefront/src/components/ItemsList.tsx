@@ -1,18 +1,15 @@
 import { Alert, Grid, Link } from "@mui/material";
 import { useItems } from "../services/itemService";
-import { QUERY_STATUS } from "../utils/constants";
 import { Item } from "../utils/types";
 import ItemPreview from "./ItemPreview";
 
 const ItemsList = () => {
-	const { items, status } = useItems();
+	const { items, isError, isSuccess } = useItems();
 
 	return (
 		<>
-			{status === QUERY_STATUS.error && (
-				<Alert severity="error">Error loading items.</Alert>
-			)}
-			{status === QUERY_STATUS.success && (
+			{isError && <Alert severity="error">Error loading items.</Alert>}
+			{isSuccess && (
 				<Grid
 					container
 					spacing={8}

@@ -1,10 +1,3 @@
-export const QUERY_STATUS = {
-	loading: "loading",
-	success: "success",
-	error: "error",
-	idle: "idle",
-};
-
 export const TRANSACTION_SUCCESS = {
 	type: "success",
 	message:

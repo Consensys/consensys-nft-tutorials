@@ -4,18 +4,15 @@ import ItemDetails from "../components/ItemDetails";
 import Page from "../components/Page";
 import PurchaseAction from "../components/PurchaseAction";
 import { useItem } from "../services/itemService";
-import { QUERY_STATUS } from "../utils/constants";
 
 const ItemPage = () => {
 	const { itemId } = useParams();
-	const { item, status } = useItem(itemId!);
+	const { item, isError, isSuccess } = useItem(itemId!);
 
 	return (
 		<>
-			{status === QUERY_STATUS.error && (
-				<Alert severity="error">Error loading items.</Alert>
-			)}
-			{status === QUERY_STATUS.success && (
+			{isError && <Alert severity="error">Error loading items.</Alert>}
+			{isSuccess && (
 				<Page>
 					<Box sx={{ my: 4 }}>
 						{item.listing && <PurchaseAction item={item} />}
