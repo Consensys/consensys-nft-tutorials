@@ -1,42 +1,18 @@
-# Create React App example with TypeScript
+# Create a Custom Storefront
 
-## How to use
+In this tutorial, we are going to create a simple storefront for our NFT drop, **THE EGG**, by using the Treum platform combined with a React frontend.
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+Our storefront will have two pages:
 
-<!-- #default-branch-switch -->
+- The front page will display all *the EGGs* for sale.
+- An item page will show detailed information about *the EGG*. This is also where users can connect their wallet and make a purchase.
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2 material-ui-master/examples/create-react-app-with-typescript
-cd create-react-app-with-typescript
-```
 
-Install it and run:
-
-```sh
-npm install
-npm start
-```
-
-or:
-
-<!-- #default-branch-switch -->
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/master/examples/create-react-app-with-typescript)
-
-<!-- #default-branch-switch -->
-
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui-org/material-ui/tree/master/examples/create-react-app-with-typescript)
+We will be using [**MetaMask**](https://www.metamask.io) as a wallet to interact with the site, so make sure you have [**MetaMask installed on your browser**](https://www.metamask.io/download). Follow the instructions to create a new wallet.
 
 ## The idea behind the example
 
-This example demonstrates how you can use [Create React App](https://github.com/facebookincubator/create-react-app) with [TypeScript](https://github.com/Microsoft/TypeScript).
+This example demonstrates how you can use Treum public APIs to create an NFT drop for your organization. 
+
 It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5.
-If you prefer, you can [use styled-components instead](https://mui.com/guides/interoperability/#styled-components).
 
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation, continuing browsing it from the [templates](https://mui.com/getting-started/templates/) section.
