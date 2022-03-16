@@ -7,6 +7,7 @@ export interface Item {
 	token_id: string;
 	collection_id: string;
 	listing: Listing;
+	media: any;
 }
 
 export type Token = {
@@ -34,7 +35,7 @@ export interface OnchainAuctionListingData {
 	duration: number;
 	end_time: string;
 	extension_window: number;
-	min_bid_increment: string;
+	min_bid_increment_bps: number;
 	start_time: string;
 	starting_bid: string;
 	status: string;

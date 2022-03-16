@@ -20,7 +20,8 @@
 		"react-query": "^3.34.16",
 		"react-router-dom": "6",
 		"react-scripts": "^4.0.3",
-		"typescript": "latest"
+		"typescript": "latest",
+    "moment": "latest"
 	},
 	"scripts": {
 		"start": "react-scripts start",

@@ -1,0 +1,1044 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "orderHash",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "makerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "Cancel",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "makerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "CancelAllBefore",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "orderTimestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "taker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "takerAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "takerTokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "takerToken",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "maker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "makerAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "makerId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "makerToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "senderAddress",
+        "type": "address"
+      }
+    ],
+    "name": "Fill",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "to",
+        "type": "address[]"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "amount",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "Payout",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "cancel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "nonce",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelAllBefore",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "canceledOrders",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "fillAmount",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      }
+    ],
+    "name": "fill",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "makerSignature",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "takerSignature",
+        "type": "bytes"
+      }
+    ],
+    "name": "fillFor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "fillAmount",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      }
+    ],
+    "name": "fillWithNativeAsset",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "filledAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "getOrderType",
+    "outputs": [
+      {
+        "internalType": "enum TreumOrder.OrderType",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "getTypedDataHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "makerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "takerAddress",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "makerToken",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum TreumOrder.TokenType",
+                "name": "kind",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct TreumOrder.Token",
+            "name": "takerToken",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutTo",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "payoutAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct TreumOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "hash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "invalidNonces",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "weth",
+        "type": "address"
+      }
+    ],
+    "name": "setWrappedAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "wrappedAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

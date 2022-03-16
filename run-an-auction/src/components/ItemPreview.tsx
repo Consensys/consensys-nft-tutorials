@@ -15,14 +15,12 @@ interface ItemPreviewProps {
 const ItemPreview = ({ item }: ItemPreviewProps) => {
 	const { attributes } = item;
 
-	console.log(item);
-
 	return (
 		<Card sx={{ my: 8, height: 600 }}>
 			<CardActionArea sx={{ height: 1 }}>
 				<CardMedia
 					component="img"
-					image={attributes.image_url || placeholderImg}
+					image={item.media.image.original || placeholderImg}
 					alt={attributes.title}
 					sx={{ height: 300 }}
 				/>

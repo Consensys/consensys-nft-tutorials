@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import apiInstance from "../utils/api";
 import find from "lodash/find";
+import { networkId } from "../config";
 
 export interface PlatformContract {
 	address: string;
@@ -9,7 +10,11 @@ export interface PlatformContract {
 }
 
 export const fetchContracts = async () => {
-	const { data } = await apiInstance.get(`/v2/public/contracts`);
+	let searchParams = new URLSearchParams();
+	searchParams.set("network_id", networkId ?? "4");
+	const { data } = await apiInstance.get(
+		`/v2/public/contracts?${searchParams}`
+	);
 	return data;
 };
 
