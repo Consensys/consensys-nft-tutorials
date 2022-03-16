@@ -1,0 +1,52 @@
+{
+	"name": "create-react-app-with-typescript",
+	"version": "5.0.0",
+	"private": true,
+	"dependencies": {
+		"@emotion/react": "latest",
+		"@emotion/styled": "latest",
+		"@ethersproject/providers": "^5.6.0",
+		"@mui/icons-material": "^5.5.1",
+		"@mui/material": "latest",
+		"@types/react": "latest",
+		"@types/react-dom": "latest",
+		"axios": "^0.26.1",
+		"bnc-notify": "^1.9.4",
+		"bnc-onboard": "^1.38.2",
+		"ethers": "^5.6.0",
+		"lodash": "^4.17.21",
+		"react": "latest",
+		"react-dom": "latest",
+		"react-query": "^3.34.16",
+		"react-router-dom": "6",
+		"react-scripts": "^4.0.3",
+		"typescript": "latest"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.180"
+	}
+}
