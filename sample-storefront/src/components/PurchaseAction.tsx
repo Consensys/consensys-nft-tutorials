@@ -20,7 +20,7 @@ const PurchaseAction: React.FC<PurchaseActionsProps> = ({ item }) => {
 		<>
 			<Button
 				onClick={() => setCryptoBuyOpen(true)}
-				disabled={!isRightNetwork || !address}
+				disabled={!isRightNetwork() || !address}
 				color="secondary"
 				variant="outlined"
 				sx={{ borderRadius: 5, px: 18, float: "right" }}
@@ -30,7 +30,7 @@ const PurchaseAction: React.FC<PurchaseActionsProps> = ({ item }) => {
 				</Typography>
 			</Button>
 
-			{!isRightNetwork && token_contract && address && (
+			{!isRightNetwork() && token_contract && address && (
 				<Alert severity="warning">
 					Switch your network to ${networkName} to purchase.
 				</Alert>

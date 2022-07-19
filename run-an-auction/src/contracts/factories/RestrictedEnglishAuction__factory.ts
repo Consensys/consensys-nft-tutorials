@@ -5,21 +5,34 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  TreumEnglishAuction,
-  TreumEnglishAuctionInterface,
-} from "../TreumEnglishAuction";
+  RestrictedEnglishAuction,
+  RestrictedEnglishAuctionInterface,
+} from "../RestrictedEnglishAuction";
 
 const _abi = [
   {
     inputs: [
       {
         internalType: "address",
-        name: "wrappedNativeAssetAddress",
+        name: "wrappedNativeAsset",
         type: "address",
       },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "auctionId",
+        type: "uint256",
+      },
+    ],
+    name: "AuctionCancelled",
+    type: "event",
   },
   {
     anonymous: false,
@@ -81,7 +94,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "minBidIncrement",
+        name: "minBidIncrementBps",
         type: "uint256",
       },
       {
@@ -161,19 +174,114 @@ const _abi = [
     inputs: [
       {
         indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "previousAdminRole",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "newAdminRole",
+        type: "bytes32",
+      },
+    ],
+    name: "RoleAdminChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
         internalType: "address",
-        name: "previousOwner",
+        name: "account",
         type: "address",
       },
       {
         indexed: true,
         internalType: "address",
-        name: "newOwner",
+        name: "sender",
         type: "address",
       },
     ],
-    name: "OwnershipTransferred",
+    name: "RoleGranted",
     type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "RoleRevoked",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "AUCTION_CREATOR_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DEFAULT_ADMIN_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "SIGNER_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
@@ -201,7 +309,7 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "enum TreumEnglishAuction.TokenType",
+        internalType: "enum AbsEnglishAuction.TokenType",
         name: "tokenType",
         type: "uint8",
       },
@@ -232,7 +340,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "minBidIncrement",
+        name: "minBidIncrementBps",
         type: "uint256",
       },
       {
@@ -274,7 +382,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "enum TreumEnglishAuction.TokenType",
+            internalType: "enum AbsEnglishAuction.TokenType",
             name: "tokenType",
             type: "uint8",
           },
@@ -320,7 +428,7 @@ const _abi = [
           },
           {
             internalType: "uint256",
-            name: "minBidIncrement",
+            name: "minBidIncrementBps",
             type: "uint256",
           },
           {
@@ -334,7 +442,7 @@ const _abi = [
             type: "uint32[]",
           },
         ],
-        internalType: "struct TreumEnglishAuction.Auction",
+        internalType: "struct AbsEnglishAuction.Auction",
         name: "",
         type: "tuple",
       },
@@ -364,22 +472,112 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+    ],
+    name: "getRoleAdmin",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
         internalType: "address",
-        name: "token",
+        name: "account",
         type: "address",
+      },
+    ],
+    name: "grantRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "hasRole",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
       },
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "expiresAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "hashCalldata",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "auctionId",
         type: "uint256",
       },
     ],
-    name: "getAuctionId",
+    name: "isAuctionComplete",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "bool",
         name: "",
-        type: "uint256",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -393,7 +591,45 @@ const _abi = [
         type: "uint256",
       },
     ],
-    name: "isAuctionComplete",
+    name: "isAuctionNftSettled",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "auctionId",
+        type: "uint256",
+      },
+    ],
+    name: "isAuctionPaymentSettled",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "auctionId",
+        type: "uint256",
+      },
+    ],
+    name: "isAuctionSettled",
     outputs: [
       {
         internalType: "bool",
@@ -517,19 +753,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -541,10 +764,30 @@ const _abi = [
         name: "bidAmount",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "expiresAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "v",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "r",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "s",
+        type: "bytes32",
+      },
     ],
     name: "placeBid",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -554,6 +797,26 @@ const _abi = [
         name: "auctionId",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "expiresAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "v",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "r",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "s",
+        type: "bytes32",
+      },
     ],
     name: "placeBidInEth",
     outputs: [],
@@ -561,8 +824,37 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "renounceOwnership",
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "renounceRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "revokeRole",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -576,6 +868,37 @@ const _abi = [
       },
     ],
     name: "settleAuction",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "auctionId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "alternateAddress",
+        type: "address",
+      },
+    ],
+    name: "settleAuctionNftToAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "auctionId",
+        type: "uint256",
+      },
+    ],
+    name: "settleAuctionPayment",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -600,19 +923,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "wrappedAddress",
     outputs: [
@@ -627,15 +937,19 @@ const _abi = [
   },
 ];
 
-export class TreumEnglishAuction__factory {
+export class RestrictedEnglishAuction__factory {
   static readonly abi = _abi;
-  static createInterface(): TreumEnglishAuctionInterface {
-    return new utils.Interface(_abi) as TreumEnglishAuctionInterface;
+  static createInterface(): RestrictedEnglishAuctionInterface {
+    return new utils.Interface(_abi) as RestrictedEnglishAuctionInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): TreumEnglishAuction {
-    return new Contract(address, _abi, signerOrProvider) as TreumEnglishAuction;
+  ): RestrictedEnglishAuction {
+    return new Contract(
+      address,
+      _abi,
+      signerOrProvider
+    ) as RestrictedEnglishAuction;
   }
 }

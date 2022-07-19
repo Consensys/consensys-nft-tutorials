@@ -50,7 +50,7 @@ const AuctionContainer = ({ item }: AuctionContainerProps) => {
 									currentBidWei={currentBidWei}
 									currency={auctionData.currency}
 								/>
-								{address && web3Provider && contract && isRightNetwork ? (
+								{address && web3Provider && contract && isRightNetwork() ? (
 									<BidActionContainer
 										account={address}
 										auctionData={auctionData}
@@ -58,7 +58,7 @@ const AuctionContainer = ({ item }: AuctionContainerProps) => {
 										contractAddress={contract.address}
 										currentBidWei={currentBidWei}
 									/>
-								) : address && !isRightNetwork ? (
+								) : address && !isRightNetwork() ? (
 									<Alert severity="warning">
 										Please connect to the {networkName} network.
 									</Alert>

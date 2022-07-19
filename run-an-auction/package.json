@@ -8,6 +8,7 @@
 		"@ethersproject/providers": "^5.6.0",
 		"@mui/icons-material": "^5.5.1",
 		"@mui/material": "latest",
+		"@typechain/ethers-v5": "^10.1.0",
 		"@types/react": "latest",
 		"@types/react-dom": "latest",
 		"axios": "^0.26.1",
@@ -15,13 +16,14 @@
 		"bnc-onboard": "^1.38.2",
 		"ethers": "^5.6.0",
 		"lodash": "^4.17.21",
+		"moment": "latest",
 		"react": "latest",
 		"react-dom": "latest",
 		"react-query": "^3.34.16",
 		"react-router-dom": "6",
 		"react-scripts": "^4.0.3",
-		"typescript": "latest",
-    "moment": "latest"
+		"typechain": "^8.1.0",
+		"typescript": "latest"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -48,6 +50,8 @@
 		]
 	},
 	"devDependencies": {
-		"@types/lodash": "^4.14.180"
+		"@typechain/ethers-v5": "^10.1.0",
+		"@types/lodash": "^4.14.180",
+		"typechain": "^8.1.0"
 	}
 }
